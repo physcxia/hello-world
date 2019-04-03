@@ -2,16 +2,18 @@
 " Author: Xia Chen
 "  Email: xiachen1996@foxmail.com
 
+
 " Manage plugins with vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'davidhalter/jedi-vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'vim-latex/vim-latex'
-Plug 'WolfgangMehner/c-support'
+" Plug 'WolfgangMehner/c-support'
 call plug#end()
 " End of vim-plug
 
 syntax on
+set nocompatible
 set encoding=utf-8
 set nu
 set ruler
@@ -27,6 +29,8 @@ set showcmd
 set hlsearch
 set showmode
 
+let g:tex_flavor='latex'
+
 " Set leader ;
 let mapleader = ";"
 
@@ -36,7 +40,8 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <c-s> :write<cr>
 
 inoremap jk <esc>
-inoremap <esc> <nop>
+"inoremap <esc> <nop>
+
 
 autocmd FileType makefile setlocal noexpandtab
-autocmd BufNewFile * :write
+" autocmd BufNewFile * :write
