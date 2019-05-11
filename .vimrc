@@ -4,10 +4,20 @@
 
 
 " Manage plugins with vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-surround'
 Plug 'davidhalter/jedi-vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'vim-latex/vim-latex'
+Plug 'lervag/vimtex'
+" Plug 'vim-latex/vim-latex'
 " Plug 'WolfgangMehner/c-support'
 call plug#end()
 " End of vim-plug
@@ -29,19 +39,21 @@ set showcmd
 set hlsearch
 set showmode
 
+set mouse=a
+
 let g:tex_flavor='latex'
 
-" Set leader ;
-let mapleader = ";"
+" Set leader
+" let mapleader = "`"
 
 " Maps
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-nnoremap <c-s> :write<cr>
+nnoremap <C-s> :write<cr>
 
 inoremap jk <esc>
-"inoremap <esc> <nop>
+
+cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'
 
 
 autocmd FileType makefile setlocal noexpandtab
-" autocmd BufNewFile * :write
