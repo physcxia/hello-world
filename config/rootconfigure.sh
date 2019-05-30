@@ -1,24 +1,33 @@
+#!/usr/bin/bash
 
-install_path="$HOME/software/root"
-source_path="$HOME/src/root-6.14.06"
+# root cmake configure script
+# Xia Chen <xiachen1996@foxmail.com>
+
+INSTALL_PATH="$HOME/software/root"
+SOURCE_PATH="$HOME/src/root"
+BUILD_DIR="$HOME/build/rootbuild"
 #PATH=$(echo $PATH | sed -e 's;:\?$/home/chen/software/anaconda3/bin;;' -e 's;/home/chen/software/anaconda3/bin:\?;;')
 
-cd $source_path
-if [ -d builddir ]; then
-    rm -rf builddir
+if [ -d $BUILD_DIR ]; then
+    rm -rf $BUILD_DIR
 fi
 
-mkdir builddir
-cd builddir
+mkdir -p $BUILD_DIR
 
-cmake -DCMAKE_INSTALL_PREFIX=$install_path \
-    -Dcxx14=ON \
-    -Dcxx17=ON \
-    -Dbuiltin_zlib=ON \
-    ..
+cd $BUILD_DIR
 
-#    -DPYTHIA8_DIR=/home/chen/software/pythia \
-#    -DPYTHIA8_INCLUDE_DIR=/home/chen/software/pythia/include \
-#    -DPYTHIA8_LIBRARY=/home/chen/software/pythia/lib \
-# cd $source_path/builddir
+if [ $? = 0 ]; then
+    cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH \
+        -Dfail-on-missing=ON \
+        -Dcxx11=ON -Dcxx14=ON -Dcxx17=ON \
+        -Dminuit2=ON -Droofit=ON \
+        -Dtbb=ON -Dsoversion=ON \
+        -Dbuiltin_vdt=ON \
+        -Dxrootd=OFF \
+        -Doracle=OFF -Dpgsql=OFF \
+        -Dpythia6=OFF \
+        -Dgfal=OFF \
+        $SOURCE_PATH
+fi
+
 # cmake --build . --target install -- -j6
