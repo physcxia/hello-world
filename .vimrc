@@ -23,6 +23,7 @@ call plug#end()
 " End of vim-plug
 
 syntax on
+set modifiable
 set nocompatible
 set encoding=utf-8
 set fenc=utf-8      "编码
