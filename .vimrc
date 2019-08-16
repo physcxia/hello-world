@@ -1,6 +1,6 @@
 " .vimrc file
-" Author: Xia Chen
-"  Email: xiachen1996@foxmail.com
+" Author: Xia Chen , ThinkPositive0x0
+"  Email: xiachen1996@foxmail.com , ThinkPositive0x0@outlook.com
 
 
 " Manage plugins with vim-plug
@@ -16,7 +16,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
 Plug 'davidhalter/jedi-vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'lervag/vimtex'
+" Plug 'lervag/vimtex'
 " Plug 'vim-latex/vim-latex'
 " Plug 'WolfgangMehner/c-support'
 call plug#end()
@@ -25,6 +25,7 @@ call plug#end()
 syntax on
 set nocompatible
 set encoding=utf-8
+set fenc=utf-8      "编码
 set nu
 set ruler
 
@@ -34,9 +35,10 @@ set autoindent
 set smarttab
 set smartindent
 set expandtab
+set showmatch  "显示匹配的括号
 
 set showcmd
-set hlsearch
+set hlsearch   "搜索高亮
 set showmode
 
 set mouse=a
@@ -57,3 +59,20 @@ cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'
 
 
 autocmd FileType makefile setlocal noexpandtab
+
+au BufNewFile,BufRead *.py "
+\ set tabstop=4   "tab宽度
+\ set softtabstop=4 
+\ set shiftwidth=4  
+\ set textwidth=79  "行最大宽度
+\ set expandtab       "tab替换为空格键
+\ set autoindent      "自动缩进
+\ set fileformat=unix   "保存文件格式
+
+map <F5> :call RunPython()<CR>
+func! RunPython()
+    exec "W"
+    if &filetype == 'python'
+        exec "!time python3 %"
+    endif
+endfunc
