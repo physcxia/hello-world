@@ -17,6 +17,11 @@ Plug 'tpope/vim-surround'
 Plug 'davidhalter/jedi-vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'lervag/vimtex'
+Plug 'sirver/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'vim-scripts/SWIG-syntax'
+Plug 'arnoudbuzing/wolfram-vim'
+" Plug 'SpaceVim/vim-swig'
 " Plug 'vim-latex/vim-latex'
 " Plug 'WolfgangMehner/c-support'
 call plug#end()
@@ -42,6 +47,15 @@ set showmode
 set mouse=a
 
 let g:tex_flavor='latex'
+let g:vimtex_view_general_viewer='okular'
+let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+let g:vimtex_view_general_options_latexmk = '--unique'
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 
 " Set leader
 " let mapleader = "`"
@@ -55,5 +69,10 @@ inoremap jk <esc>
 
 cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'
 
+au BufNewFile,BufRead *.i set filetype=swig
+au BufNewFile,BufRead *.wl set syntax=wl
+au BufNewFile,BufRead *.wls set syntax=wl
+au BufNewFile,BufRead *.m set syntax=wl
 
 autocmd FileType makefile setlocal noexpandtab
+
