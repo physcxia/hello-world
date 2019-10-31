@@ -21,6 +21,9 @@ Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'vim-scripts/SWIG-syntax'
 Plug 'arnoudbuzing/wolfram-vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'scrooloose/syntastic'
+Plug 'yggdroot/indentline'
 " Plug 'SpaceVim/vim-swig'
 " Plug 'vim-latex/vim-latex'
 " Plug 'WolfgangMehner/c-support'
@@ -46,16 +49,40 @@ set showmode
 
 set mouse=a
 
+" for Plug 'davidhalter/jedi-vim'
+let g:jedi#use_splits_not_buffers = "right"
+let g:jedi#popup_on_dot = 0
+
+" for Plug 'lervag/vimtex'
 let g:tex_flavor='latex'
 let g:vimtex_view_general_viewer='okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
 
+" for Plug 'sirver/ultisnips'
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+
+" for Plug 'vim-scripts/SWIG-syntax'
+au BufNewFile,BufRead *.i set filetype=swig
+
+" for Plug 'arnoudbuzing/wolfram-vim'
+au BufNewFile,BufRead *.wl set syntax=wl
+au BufNewFile,BufRead *.wls set syntax=wl
+au BufNewFile,BufRead *.m set syntax=wl
+
+" for Plug 'altercation/vim-colors-solarized'
+syntax enable
+set background=dark
+colorscheme solarized
+let g:solarized_termcolors=256
+
+" for Plug 'yggdroot/indentline'
+" let g:indentLine_setColors = 0
+let g:indentLine_color_term = 239
 
 " Set leader
 " let mapleader = "`"
@@ -69,10 +96,6 @@ inoremap jk <esc>
 
 cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'
 
-au BufNewFile,BufRead *.i set filetype=swig
-au BufNewFile,BufRead *.wl set syntax=wl
-au BufNewFile,BufRead *.wls set syntax=wl
-au BufNewFile,BufRead *.m set syntax=wl
 
 autocmd FileType makefile setlocal noexpandtab
 
