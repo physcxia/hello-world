@@ -46,6 +46,7 @@ set expandtab
 set showcmd
 set hlsearch
 set showmode
+set colorcolumn=80
 
 set mouse=a
 
@@ -55,9 +56,10 @@ let g:jedi#popup_on_dot = 0
 
 " for Plug 'lervag/vimtex'
 let g:tex_flavor='latex'
-let g:vimtex_view_general_viewer='okular'
-let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-let g:vimtex_view_general_options_latexmk = '--unique'
+let g:vimtex_view_general_viewer='evince'
+" let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+" let g:vimtex_view_general_options_latexmk = '--unique'
+autocmd FileType tex setlocal complete-=i
 
 " for Plug 'sirver/ultisnips'
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -65,6 +67,7 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+let g:UltiSnipsUsePythonVersion=3
 
 " for Plug 'vim-scripts/SWIG-syntax'
 au BufNewFile,BufRead *.i set filetype=swig
@@ -84,6 +87,16 @@ let g:solarized_termcolors=256
 " let g:indentLine_setColors = 0
 let g:indentLine_color_term = 239
 
+" for Plug 'scrooloose/syntastic'
+set statusline+=%#arningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
+let g:syntastic_python_checkers = ['python', 'pylint']
+
 " Set leader
 " let mapleader = "`"
 
@@ -98,4 +111,5 @@ cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'
 
 
 autocmd FileType makefile setlocal noexpandtab
-
+autocmd FileType json setlocal tabstop=2
+autocmd FileType json setlocal shiftwidth=2
