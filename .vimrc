@@ -141,6 +141,9 @@ nnoremap <leader>ev :split $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <C-s> :write<cr>
 
+nmap <Enter> o<esc>
+nmap <S-Enter> O<esc>
+
 inoremap jk <esc>
 
 cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'
