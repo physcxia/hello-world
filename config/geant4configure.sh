@@ -16,14 +16,25 @@ cd ./build
 cmake -DCMAKE_INSTALL_PREFIX=$install_path \
     -DGEANT4_INSTALL_DATA=ON \
     -DGEANT4_BUILD_MULTITHREADED=ON \
-    -DGEANT4_USE_GDML=ON \
     -DGEANT4_USE_QT=ON \
     -DGEANT4_USE_OPENGL_X11=ON \
     -DGEANT4_USE_RAYTRACER_X11=ON \
     -DGEANT4_USE_SYSTEM_ZLIB=ON \
-    -DGEANT4_USE_FREETYPE=ON \
-    -DBUILD_STATIC_LIBS=ON \
+    -DGEANT4_BUILD_CXXSTD=17 \
+    -DBUILD_STATIC_LIBS=ON
     $source_path
+
+# cmake -DCMAKE_INSTALL_PREFIX=$install_path \
+#     -DGEANT4_INSTALL_DATA=ON \
+#     -DGEANT4_BUILD_MULTITHREADED=ON \
+#     -DGEANT4_USE_GDML=ON \
+#     -DGEANT4_USE_QT=ON \
+#     -DGEANT4_USE_OPENGL_X11=ON \
+#     -DGEANT4_USE_RAYTRACER_X11=ON \
+#     -DGEANT4_USE_SYSTEM_ZLIB=ON \
+#     -DGEANT4_USE_FREETYPE=ON \
+#     -DBUILD_STATIC_LIBS=ON \
+#     $source_path
 
 # cd ./build
 # cmake --build . --config Release --target install -- -j6

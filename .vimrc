@@ -20,7 +20,7 @@ Plug 'preservim/nerdtree'
 
 " Python
 Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'davidhalter/jedi-vim'
+" Plug 'davidhalter/jedi-vim'
 " Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
 " Tools
@@ -31,19 +31,24 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'scrooloose/syntastic'
+Plug 'dense-analysis/ale'
+" Plug 'scrooloose/syntastic'
+Plug 'ycm-core/YouCompleteMe'
+Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'preservim/nerdcommenter'
 
 " Other Languages
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'lervag/vimtex'
 Plug 'vim-scripts/SWIG-syntax'
 Plug 'arnoudbuzing/wolfram-vim'
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mattn/emmet-vim'
-" Plug 'vim-latex/vim-latex'
+Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
+Plug 'lervag/vimtex'
+Plug 'glench/vim-jinja2-syntax'
+Plug 'cespare/vim-toml'
 " Plug 'WolfgangMehner/c-support'
 call plug#end()
 " End of vim-plug
@@ -77,18 +82,35 @@ set colorcolumn=80
 
 set mouse=a
 
+set cursorline
+
+" set foldenable
+" set foldmethod=syntax
+
+" for YouCompleteMe
+let g:ycm_key_list_select_completion = ['<C-n>']
+let g:ycm_key_list_previous_completion = ['<C-p>']
+" let g:ycm_register_as_syntastic_checker = 1
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 0
+" ['same-buffer', 'horizontal-split', 'vertical-split', 'new-tab']
+let g:ycm_goto_buffer_command = 'same-buffer'
+
 " for Plug 'davidhalter/jedi-vim'
 let g:jedi#use_splits_not_buffers = "right"
 let g:jedi#popup_on_dot = 1
 
 " for Plug 'lervag/vimtex'
 let g:tex_flavor='latex'
-let g:vimtex_view_general_viewer='zathura'
+" let g:vimtex_view_general_viewer='zathura'
+let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
-" let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-" let g:vimtex_view_general_options_latexmk = '--unique'
+let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+let g:vimtex_view_general_options_latexmk = '--unique'
 let g:tex_conceal='abdmg'
-autocmd FileType tex setlocal complete-=i conceallevel=2
+autocmd FileType tex setlocal complete-=i conceallevel=1 spell spelllang=en_us
+hi Conceal ctermbg=none
+hi SpellBad cterm=underline,bold ctermfg=red
 
 " for Plug 'sirver/ultisnips'
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -107,7 +129,7 @@ au BufNewFile,BufRead *.wls set syntax=wl
 au BufNewFile,BufRead *.m set syntax=wl
 
 " for Plug 'altercation/vim-colors-solarized'
-let g:solarized_termcolors=256
+" let g:solarized_termcolors=256
 
 " for Plug 'yggdroot/indentline'
 " let g:indentLine_setColors = 0
@@ -115,15 +137,33 @@ let g:indentLine_color_term = 239
 let g:indentLine_fileType = ['c', 'cpp', 'python']
 
 " for Plug 'scrooloose/syntastic'
-set statusline+=%#arningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_check_on_open=1
-let g:syntastic_check_on_wq=0
-let g:syntastic_python_checkers = ['pyflakes', 'flake8', 'pylint']
-let g:syntastic_rst_checkers = ['rstcheck']
+" set statusline+=%#arningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_always_populate_loc_list=1
+" let g:syntastic_auto_loc_list=1
+" let g:syntastic_loc_list_height=4
+" let g:syntastic_check_on_open=1
+" let g:syntastic_check_on_wq=0
+" let g:syntastic_python_checkers = ['pyflakes', 'flake8', 'pylint']
+" let g:syntastic_rst_checkers = ['rstcheck']
+" let g:syntastic_tex_checkers = ['chktex']
+
+" for Plug 'dense-analysis/ale'
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+let g:airline#extensions#ale#enabled = 1
+let g:ale_fixers = {'python': ['autopep8']}
+let g:ale_linters = {'python': ['flake8', 'pylint'], 'tex': ['chktex']}
+let g:ale_cpp_cc_executable = 'g++'
+let g:ale_cpp_cc_options = '-std=c++17 -Wall'
+highlight ALEWarning ctermfg=DarkMagenta
+highlight ALEError ctermfg=Red
+augroup ALEProgress
+    autocmd!
+    autocmd User ALELintPre  hi Statusline ctermfg=darkgrey
+    autocmd User ALELintPost hi Statusline ctermfg=NONE
+augroup END
 
 " for Plug 'vim-airline/vim-airline-themes'
 let g:airline_solarized_bg='dark'
@@ -141,8 +181,8 @@ nnoremap <leader>ev :split $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <C-s> :write<cr>
 
-nmap <Enter> o<esc>
-nmap <S-Enter> O<esc>
+" nmap <Enter> o<esc>
+" nmap <S-Enter> O<esc>
 
 inoremap jk <esc>
 
@@ -150,8 +190,6 @@ cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'
 
 
 autocmd FileType makefile setlocal noexpandtab
-autocmd FileType html,css,javascript,json,yaml setlocal tabstop=2
-autocmd FileType html,css,javascript,json,yaml setlocal shiftwidth=2
-autocmd FileType html,css,javascript,json,yaml setlocal softtabstop=2
+autocmd FileType html,css,javascript,json,yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2
 autocmd FileType rst setlocal tabstop=3 softtabstop=3 shiftwidth=3
-autocmd FileType cpp setlocal commentstring=//\ %s
+autocmd FileType cpp setlocal commentstring=//\ %s complete-=i
