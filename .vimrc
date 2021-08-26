@@ -120,6 +120,9 @@ let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 let g:UltiSnipsUsePythonVersion=3
 
+" for Plug 'ctrlpvim/ctrlp.vim'
+let g:ctrlp_map='<c-p>'
+
 " for Plug 'vim-scripts/SWIG-syntax'
 au BufNewFile,BufRead *.i set filetype=swig
 
@@ -154,9 +157,11 @@ let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
 let g:airline#extensions#ale#enabled = 1
 let g:ale_fixers = {'python': ['autopep8']}
-let g:ale_linters = {'python': ['flake8', 'pylint'], 'tex': ['chktex']}
+let g:ale_linters = {'python': ['flake8', 'pylint'], 'tex': ['chktex'], 'cpp': ['g++']}
 let g:ale_cpp_cc_executable = 'g++'
-let g:ale_cpp_cc_options = '-std=c++17 -Wall'
+let g:ale_cpp_cc_options = '-std=c++17 -Wall -fopenmp -I/usr/include/mpich-x86_64'
+let g:ale_textlint_use_global = 1
+let g:ale_textlint_options = '--rule textlint-rule-ginger'
 highlight ALEWarning ctermfg=DarkMagenta
 highlight ALEError ctermfg=Red
 augroup ALEProgress
