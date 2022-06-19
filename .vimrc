@@ -21,7 +21,11 @@ Plug 'preservim/nerdtree'
 " Python
 Plug 'Vimjas/vim-python-pep8-indent'
 " Plug 'davidhalter/jedi-vim'
-" Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+
+" Julia
+Plug 'JuliaEditorSupport/julia-vim'
+" Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+" Plug 'roxma/nvim-completion-manager'  " optional
 
 " Tools
 Plug 'tpope/vim-commentary'
@@ -36,12 +40,13 @@ Plug 'dense-analysis/ale'
 Plug 'ycm-core/YouCompleteMe'
 Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'preservim/nerdcommenter'
+Plug 'textlint/textlint'
+Plug 'ntpeters/vim-better-whitespace'
 
 " Other Languages
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'vim-scripts/SWIG-syntax'
 Plug 'arnoudbuzing/wolfram-vim'
-Plug 'JuliaEditorSupport/julia-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mattn/emmet-vim'
@@ -52,6 +57,7 @@ Plug 'cespare/vim-toml'
 " Plug 'WolfgangMehner/c-support'
 call plug#end()
 " End of vim-plug
+
 
 syntax on
 syntax enable
@@ -78,7 +84,7 @@ set smartindent
 set showcmd
 set hlsearch
 set showmode
-set colorcolumn=80
+set colorcolumn=+1
 
 set mouse=a
 
@@ -102,13 +108,13 @@ let g:jedi#popup_on_dot = 1
 
 " for Plug 'lervag/vimtex'
 let g:tex_flavor='latex'
-" let g:vimtex_view_general_viewer='zathura'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-let g:vimtex_view_general_options_latexmk = '--unique'
+let g:vimtex_texcount_custom_arg = '-ch-only -nosum -nosub'
 let g:tex_conceal='abdmg'
-autocmd FileType tex setlocal complete-=i conceallevel=1 spell spelllang=en_us
+autocmd FileType tex setlocal complete-=i conceallevel=1 spell spelllang=en_us,cjk formatoptions-=t
+au BufNewFile,BufRead *{.sh,.txt} setlocal formatoptions-=t
 hi Conceal ctermbg=none
 hi SpellBad cterm=underline,bold ctermfg=red
 
@@ -157,11 +163,13 @@ let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
 let g:airline#extensions#ale#enabled = 1
 let g:ale_fixers = {'python': ['autopep8']}
-let g:ale_linters = {'python': ['flake8', 'pylint'], 'tex': ['chktex'], 'cpp': ['g++']}
+let g:ale_linters = {'python': ['flake8', 'pylint'], 'tex': ['chktex'], 'cpp': ['g++', 'cppcheck'], 'julia': ['']}
 let g:ale_cpp_cc_executable = 'g++'
 let g:ale_cpp_cc_options = '-std=c++17 -Wall -fopenmp -I/usr/include/mpich-x86_64'
 let g:ale_textlint_use_global = 1
-let g:ale_textlint_options = '--rule textlint-rule-ginger'
+" let g:ale_textlint_options = '--rule textlint-rule-ginger'
+
+
 highlight ALEWarning ctermfg=DarkMagenta
 highlight ALEError ctermfg=Red
 augroup ALEProgress
@@ -178,6 +186,12 @@ let g:airline_theme='solarized'
 let g:user_emmet_install_global=0
 autocmd FileType html,css EmmetInstall
 
+" Julia
+" for Plug 'JuliaEditorSupport/julia-vim'
+let g:julia_spellcheck_docstrings=1
+let g:julia_indent_align_brackets=0
+let g:julia_indent_align_funcargs=0
+
 " Set leader
 " let mapleader = "`"
 
@@ -193,8 +207,11 @@ inoremap jk <esc>
 
 cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%'
 
-
 autocmd FileType makefile setlocal noexpandtab
 autocmd FileType html,css,javascript,json,yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2
-autocmd FileType rst setlocal tabstop=3 softtabstop=3 shiftwidth=3
+autocmd FileType rst setlocal tabstop=3 softtabstop=3 shiftwidth=3 spell spelllang=en_us
+autocmd FileType markdown setlocal spell spelllang=en_us
 autocmd FileType cpp setlocal commentstring=//\ %s complete-=i
+
+autocmd FileType tex setlocal noimdisable
+autocmd FileType julia setlocal textwidth=92 spell spelllang=en_us,cjk
